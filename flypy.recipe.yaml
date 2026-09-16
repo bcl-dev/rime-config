@@ -4,23 +4,20 @@ recipe:
   Rx: flypy
   args: []
   description: >-
-    雾凇拼音 + 小鹤双拼的个人偏好补丁。
+    雾凇拼音 + 小鹤双拼的个人偏好补丁，含仿 macOS 原生输入法的皮肤 macos_light / macos_dark。
     前置：rime-install iDvel/rime-ice:others/recipes/full
       - 候选词 7 个
-      - 字号 12/12/11（皮肤不在此设定，由「输入法设定」界面选择）
       - 默认英文标点
       - 输入框显示双拼原码，不展开为全拼
+      - 鼠鬚管：横排、序号无点号、系统蓝高亮、紧凑留白，跟随系统浅色/深色外观
+      - 小狼毫：字号 12/12/11；注册并启用同名配色，跟随系统深色模式（0.15+）
+        注意：设了 style/color_scheme，「输入法设定」界面里改皮肤会在下次部署时被覆盖
+    颜色格式均为 0xBBGGRR（带透明度时 0xAABBGGRR）。
 
 patch_files:
   default.custom.yaml:
     - patch/+:
         menu/page_size: 7
-
-  weasel.custom.yaml:
-    - patch/+:
-        style/font_point: 12
-        style/label_font_point: 12
-        style/comment_font_point: 11
 
   double_pinyin_flypy.custom.yaml:
     - patch/+:
@@ -30,3 +27,98 @@ patch_files:
   rime_ice.custom.yaml:
     - patch/+:
         "switches/@1/reset": 1
+
+  squirrel.custom.yaml:
+    - patch/+:
+        style/color_scheme: macos_light
+        style/color_scheme_dark: macos_dark
+
+        # 布局（配色方案里未定义同名字段，故这里的全局值生效）
+        style/candidate_list_layout: linear                       # 横排
+        style/candidate_format: "[label] [candidate] [comment]"   # 序号后不加点号
+        style/font_point: 14
+        style/label_font_point: 10
+        style/comment_font_point: 12
+        # 面板四周留白 = border_width/height + corner_radius，分别为横 8、竖 6
+        style/corner_radius: 6
+        style/hilited_corner_radius: 4
+        style/border_width: 2
+        style/border_height: 0
+        style/line_spacing: 3       # 候选行上下各加一半
+        style/spacing: 4            # 编码行与候选行间距（inline_preedit 时不可见）
+
+        preset_color_schemes/macos_light:
+          name: "macOS Light"
+          author: bcl-dev
+          color_space: srgb
+          back_color: 0xFFFFFF
+          border_color: 0xFFFFFF
+          text_color: 0x000000                      # 编码
+          candidate_text_color: 0x000000
+          label_color: 0x8E8E8E
+          comment_text_color: 0x8E8E8E
+          hilited_candidate_back_color: 0xFF7A00    # 系统蓝 #007AFF
+          hilited_candidate_text_color: 0xFFFFFF
+          hilited_candidate_label_color: 0xFFFFFF
+          hilited_comment_text_color: 0xE6E6E6
+
+        preset_color_schemes/macos_dark:
+          name: "macOS Dark"
+          author: bcl-dev
+          color_space: srgb
+          back_color: 0x3C3A3A                      # #3A3A3C
+          border_color: 0x3C3A3A
+          text_color: 0xFFFFFF
+          candidate_text_color: 0xFFFFFF
+          label_color: 0x9A9A9A
+          comment_text_color: 0x9A9A9A
+          hilited_candidate_back_color: 0xFF7A00
+          hilited_candidate_text_color: 0xFFFFFF
+          hilited_candidate_label_color: 0xFFFFFF
+          hilited_comment_text_color: 0xE6E6E6
+
+  weasel.custom.yaml:
+    - patch/+:
+        style/font_point: 12
+        style/label_font_point: 12
+        style/comment_font_point: 11
+        # 装上即启用。代价是「输入法设定」界面选的皮肤会被这里覆盖；想用界面切换就删掉这两行
+        style/color_scheme: macos_light
+        style/color_scheme_dark: macos_dark      # 小狼毫 0.15+ 支持，跟随系统深色模式
+        preset_color_schemes/macos_light:
+          name: "macOS Light"
+          author: bcl-dev
+          color_format: abgr
+          back_color: 0xFFFFFF
+          border_color: 0xFFFFFF
+          shadow_color: 0x00000000
+          text_color: 0x000000
+          hilited_text_color: 0x000000
+          hilited_back_color: 0xFFFFFF
+          candidate_text_color: 0x000000
+          label_color: 0x8E8E8E
+          comment_text_color: 0x8E8E8E
+          hilited_candidate_back_color: 0xFF7A00
+          hilited_candidate_border_color: 0xFF7A00
+          hilited_candidate_text_color: 0xFFFFFF
+          hilited_candidate_label_color: 0xFFFFFF
+          hilited_comment_text_color: 0xE6E6E6
+
+        preset_color_schemes/macos_dark:
+          name: "macOS Dark"
+          author: bcl-dev
+          color_format: abgr
+          back_color: 0x3C3A3A
+          border_color: 0x3C3A3A
+          shadow_color: 0x00000000
+          text_color: 0xFFFFFF
+          hilited_text_color: 0xFFFFFF
+          hilited_back_color: 0x3C3A3A
+          candidate_text_color: 0xFFFFFF
+          label_color: 0x9A9A9A
+          comment_text_color: 0x9A9A9A
+          hilited_candidate_back_color: 0xFF7A00
+          hilited_candidate_border_color: 0xFF7A00
+          hilited_candidate_text_color: 0xFFFFFF
+          hilited_candidate_label_color: 0xFFFFFF
+          hilited_comment_text_color: 0xE6E6E6
