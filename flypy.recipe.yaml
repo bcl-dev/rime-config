@@ -7,7 +7,7 @@ recipe:
     雾凇拼音 + 小鹤双拼的个人偏好补丁。
     前置：rime-install iDvel/rime-ice:others/recipes/full
       - 候选词 7 个
-      - 皮肤 purity_of_form_custom，字号 12/12/11
+      - 字号 12/12/11（皮肤不在此设定，由「输入法设定」界面选择）
       - 默认英文标点
       - 输入框显示双拼原码，不展开为全拼
 
@@ -18,7 +18,6 @@ patch_files:
 
   weasel.custom.yaml:
     - patch/+:
-        style/color_scheme: purity_of_form_custom
         style/font_point: 12
         style/label_font_point: 12
         style/comment_font_point: 11
